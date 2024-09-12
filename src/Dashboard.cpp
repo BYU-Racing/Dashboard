@@ -74,7 +74,7 @@ void Dashboard::routeData(SensorData* data) {
             updateBrakeActiveState(data);
             break;
         case BATTERY_TEMP_ID:
-            //updateBatteryTemp(data);
+            updateBatteryTemp(data);
             break;
         case BATTERY_PERC_ID:
             updateSOCState(data);
@@ -90,6 +90,7 @@ void Dashboard::routeData(SensorData* data) {
             break;
         case DRIVE_MODE_ID:
             updateDriveMode(data);
+            break;
     }
 }
 
@@ -206,5 +207,14 @@ void Dashboard::updateDriveMode(SensorData* data) {
     if(data->getData()[0] != driveModeState && data->getData()[0] <= 4 && data->getData()[0] >= 0) {
         display->writeNum("PreRun.DriveMode.val", data->getData()[0]);
         driveModeState = data->getData()[0];
+    }
+}
+
+
+void Dashboard::updateBatteryTemp(SensorData* data) {
+
+    if(data->getData()[0]/2 != batteryTempState) {
+        display->writeNum("PreRun.BatTemp.val", data->getData()[0]/2);
+        batteryTempState = data->getData()[0]/2;
     }
 }
